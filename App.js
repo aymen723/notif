@@ -22,6 +22,8 @@ import {
 } from "react-native-notifier";
 import CustomNotification from "./comp2/CustomNotification";
 import Container from "./comp2/Container";
+import ContainerNotif from "./comp3/ContainerNotif";
+import TestScroll from "./comp3/testScroll";
 
 export default function App() {
   const [Title, setTitle] = useState("test of title");
@@ -68,6 +70,14 @@ export default function App() {
       });
     i = i + 1;
   }
+
+  return (
+    <View style={styles.container}>
+      {/* <Text>azda</Text>
+      <ContainerNotif></ContainerNotif> */}
+      <TestScroll></TestScroll>
+    </View>
+  );
 
   return (
     <GestureHandlerRootView style={styles.container}>

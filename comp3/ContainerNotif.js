@@ -1,15 +1,10 @@
-import {
-  View,
-  Text,
-  Button,
-  ScrollView,
-  Dimensions,
-  Platform,
-} from "react-native";
+import { View, Text } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
-import { Notifier, Easing } from "react-native-notifier";
+import Locationhook from "./Locationhook";
 import * as Notifications from "expo-notifications";
-import CustomNotification from "./CustomNotification";
+
+import { Platform } from "react-native";
+import * as Device from "expo-device";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -18,8 +13,9 @@ Notifications.setNotificationHandler({
     shouldSetBadge: false,
   }),
 });
-export default function Container() {
-  const [list, setlist] = useState([]);
+export default function ContainerNotif() {
+  const location = Locationhook();
+
   const [expoPushToken, setExpoPushToken] = useState("");
   const [notification, setNotification] = useState(false);
   const notificationListener = useRef();
@@ -38,26 +34,6 @@ export default function Container() {
         console.log(notification.request.content.data);
         setNotification(notification);
         setlist((oldArray) => [...oldArray, notification.request.content.data]);
-        const renderitem = () => {
-          return (
-            <CustomNotification item={notification.request.content.data} />
-          );
-        };
-        Notifier.showNotification({
-          title: "John Doe",
-          description: "Hello! Can you help me with notifications?",
-          duration: 0,
-          Component: renderitem,
-          showAnimationDuration: 800,
-          showEasing: Easing.bounce,
-          onHidden: () => console.log("Hidden"),
-          onPress: () => console.log("Press"),
-          queueMode: "next",
-          hideOnPress: false,
-          containerStyle: {
-            paddingTop: 30,
-          },
-        });
       });
 
     responseListener.current =
@@ -72,6 +48,12 @@ export default function Container() {
       Notifications.removeNotificationSubscription(responseListener.current);
     };
   }, []);
+  return (
+    <View>
+      {console.log(location)}
+      <Text>azda</Text>
+    </View>
+  );
 }
 
 async function schedulePushNotification() {
